@@ -3,7 +3,7 @@
 #include "Home-Work-32-Task-2.h"
 #include "nlohmann/json.hpp"
 
-#define FILMCOUNTER 2
+#define FILMCOUNTER_MAX 2
 
 class FilmInfo {
 public:
@@ -43,7 +43,7 @@ private:
 	std::string mainRole;
 };
 
-void setFilmCollection(std::map<std::string, nlohmann::json>& filmCollection, int counterMax) {
+void setFilmCollection(std::map<std::string, nlohmann::json>& filmCollection, const int counterMax) {
 	int counter = 0;
 	do {
 		std::string filmName;
@@ -51,12 +51,12 @@ void setFilmCollection(std::map<std::string, nlohmann::json>& filmCollection, in
 
 		FilmInfo filmInfo;
 		filmInfo.setFilmInfo();
-		filmCollection[filmName] = filmInfo.getFilmInfo();
+		filmCollection.emplace(filmName, filmInfo.getFilmInfo());
 
 	} while (++counter != counterMax);
 }
 
-void findMainActorInfo(const std::map<std::string, nlohmann::json>& filmCollection, std::string name) {
+void findMainActorInfo(const std::map<std::string, nlohmann::json>& filmCollection, const std::string& name) {
 	std::for_each(filmCollection.begin(), filmCollection.end(), [&] (const auto& filmInfo) {
 		if (filmInfo.second["Main Actor: "] == name)
 			std::cout << "Film: " << filmInfo.first << " and role: " << filmInfo.second["Main Role: "] << std::endl;
@@ -67,7 +67,7 @@ int main()
 {
 	std::map<std::string, nlohmann::json> filmCollection;
 	
-	setFilmCollection(filmCollection, FILMCOUNTER);
+	setFilmCollection(filmCollection, FILMCOUNTER_MAX);
 
 	std::string actorName;
 	std::cout << "Enter the name of the main actor to search for: "; std::cin >> actorName;
