@@ -48,7 +48,6 @@ void setFilmCollection(std::map<std::string, nlohmann::json>& filmCollection, co
 	do {
 		std::string filmName;
 		std::cout << "Enter the name of film: "; std::cin >> filmName;
-
 		FilmInfo filmInfo;
 		filmInfo.setFilmInfo();
 		filmCollection.emplace(filmName, filmInfo.getFilmInfo());
